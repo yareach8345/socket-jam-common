@@ -15,7 +15,7 @@ class SecurityConfig {
     fun jwtUtils(
         @Value("\${spring.jwt.secret}") secretSecret: String,
         @Value("\${spring.jwt.expiration:86400000}") expiredMs: Long = 24 * 60 * 60 * 1000,
-    ): JwtUtils = jwtUtils(secretSecret, expiredMs)
+    ): JwtUtils = JwtUtils(secretSecret, expiredMs)
 
     @Bean
     fun jwtAuthenticationConverter(
