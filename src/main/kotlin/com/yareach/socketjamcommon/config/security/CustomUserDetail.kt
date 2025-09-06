@@ -21,12 +21,4 @@ class CustomUserDetail(
     override fun getUsername(): String {
         return userId
     }
-
-    fun getNickName(): String {
-        return nickName
-    }
-
-    fun getUserId(): String {
-        return userId
-    }
 }
