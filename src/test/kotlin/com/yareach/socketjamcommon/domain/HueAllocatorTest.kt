@@ -1,7 +1,11 @@
 package com.yareach.socketjamcommon.domain
 
+import com.yareach.socketjamcommon.vo.room.RoomMemberVo
+import com.yareach.socketjamcommon.vo.room.RoomVo
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.assertThrows
+import java.time.LocalDateTime
+import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -70,5 +74,22 @@ class HueAllocatorTest {
         val exception = assertThrows<IllegalArgumentException> { HueAllocator(usedHueValues, maxUserCount) }
         assertEquals("Values in usedHueValues set must be in 0..<360", exception.message)
         assertTrue(usedHueValues.all{ it % 36 == 0 })
+    }
+
+    @Test
+    @DisplayName("RoomVo로 HueAllocator 객체 생성")
+    fun generateHueAllocatorWithRoomVo() {
+        val roomVo = RoomVo(
+            id = "12345",
+            roomName = "testRoom",
+            users = listOf( RoomMemberVo( UUID.randomUUID(), 0, "tester", LocalDateTime.now() ) ),
+            userCount = 1,
+            maxUserCount = 2
+        )
+
+        val hueAllocator = HueAllocator(roomVo)
+
+        val newHueValue = hueAllocator.getRandomHueValue()
+        assertEquals(180, newHueValue)
     }
 }
