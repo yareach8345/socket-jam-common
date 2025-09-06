@@ -2,8 +2,6 @@ package com.yareach.socketjamcommon.util
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
 import java.util.Date
 import java.util.UUID
 import javax.crypto.SecretKey
@@ -11,10 +9,9 @@ import javax.crypto.spec.SecretKeySpec
 import kotlin.takeIf
 import kotlin.text.toByteArray
 
-@Component
 class JwtUtils(
-    @Value("\${spring.jwt.secret}") secretSecret: String,
-    @field:Value("\${spring.jwt.expiration:${24 * 60 * 60 * 100}}") private val expiredMs: Long = 24 * 60 * 60 * 1000,
+    secretSecret: String,
+    private val expiredMs: Long = 24 * 60 * 60 * 1000,
 ) {
    private val secretKey: SecretKey = SecretKeySpec(
        secretSecret.toByteArray(),
