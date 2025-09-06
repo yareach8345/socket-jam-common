@@ -1,5 +1,6 @@
 package com.yareach.socketjamcommon.util
 
+import com.yareach.socketjamcommon.vo.user.UserVo
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import java.util.Date
@@ -43,4 +44,6 @@ class JwtUtils(
             .signWith(secretKey)
             .compact()
     }
+
+    fun createJwt(userVo: UserVo): String = createJwt(userVo.nickName, userVo.userId)
 }
