@@ -4,12 +4,10 @@ import com.yareach.socketjamcommon.util.JwtUtil
 import com.yareach.socketjamcommon.vo.user.UserVo
 import io.jsonwebtoken.Jwts
 import java.security.Key
-import java.security.KeyFactory
-import java.security.spec.PKCS8EncodedKeySpec
-import java.util.Base64
+import java.security.interfaces.RSAPrivateKey
 import java.util.Date
 import java.util.UUID
-import javax.crypto.spec.SecretKeySpec
+import javax.crypto.SecretKey
 
 class JwtTokenEncoder(
     private val secretKey: Key,
@@ -17,22 +15,22 @@ class JwtTokenEncoder(
 ) {
     companion object {
         fun fromSecretKey(
-            secretKeyString: String,
+            secretKey: SecretKey,
             expiredMs: Long = 24 * 60 * 60 * 1000,
         ): JwtTokenEncoder {
-            val secretKey = SecretKeySpec(
-                secretKeyString.toByteArray(),
-                Jwts.SIG.HS256.key().build().algorithm
-            )
-
+//            val secretKey = SecretKeySpec(
+//                secretKeyString.toByteArray(),
+//                Jwts.SIG.HS256.key().build().algorithm
+//            )
+//
             return JwtTokenEncoder(secretKey, expiredMs)
         }
 
         fun fromPrivateKey(
-            privateKeyString: String,
+            privateKey: RSAPrivateKey,
             expiredMs: Long = 24 * 60 * 60 * 1000,
         ): JwtTokenEncoder {
-            val privateKey = JwtUtil.stringToPrivateKey(privateKeyString)
+//            val privateKey = JwtUtil.stringToPrivateKey(privateKeyString)
 
             return JwtTokenEncoder(privateKey, expiredMs)
         }

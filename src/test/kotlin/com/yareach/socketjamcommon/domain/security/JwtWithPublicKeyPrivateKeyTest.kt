@@ -6,6 +6,8 @@ import io.jsonwebtoken.security.SignatureException
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import java.security.KeyPairGenerator
+import java.security.interfaces.RSAPrivateKey
+import java.security.interfaces.RSAPublicKey
 import java.util.Base64
 import java.util.Date
 import java.util.UUID
@@ -22,12 +24,8 @@ class JwtWithPublicKeyPrivateKeyTest {
     private val privateKey = keyPair.private
     private val publicKey = keyPair.public
 
-    private val jwtEncoder = JwtTokenEncoder.fromPrivateKey(
-        Base64.getEncoder().encodeToString(privateKey.encoded)
-    )
-    private val jwtDecoder = JwtTokenDecoder.fromPublicKey(
-        Base64.getEncoder().encodeToString(publicKey.encoded)
-    )
+    private val jwtEncoder = JwtTokenEncoder.fromPrivateKey( privateKey as RSAPrivateKey )
+    private val jwtDecoder = JwtTokenDecoder.fromPublicKey( publicKey as RSAPublicKey )
 
     val testUser = UserVo(UUID.randomUUID(), "testUser")
 

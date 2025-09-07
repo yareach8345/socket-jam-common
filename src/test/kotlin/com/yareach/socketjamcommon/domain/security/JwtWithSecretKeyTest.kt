@@ -1,5 +1,6 @@
 package com.yareach.socketjamcommon.domain.security
 
+import com.yareach.socketjamcommon.util.JwtUtil
 import com.yareach.socketjamcommon.vo.user.UserVo
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.SignatureException
@@ -13,10 +14,14 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class JwtWithSecretKeyTest {
-    private val secretString: String = "a-string-secret-256-bits-long-for-test"
+    private val jwtUtil = JwtUtil()
 
-    private val jwtEncoder = JwtTokenEncoder.fromSecretKey(secretString)
-    private val jwtDecoder = JwtTokenDecoder.fromSecretKey(secretString)
+    private val testSecretKeyString: String = "a-string-secret-256-bits-long-for-test"
+
+    private val secretKey = jwtUtil.stringToSecretKey(testSecretKeyString)
+
+    private val jwtEncoder = JwtTokenEncoder.fromSecretKey(secretKey)
+    private val jwtDecoder = JwtTokenDecoder.fromSecretKey(secretKey)
 
     val testUser = UserVo(UUID.randomUUID(), "testUser")
 
@@ -57,7 +62,7 @@ class JwtWithSecretKeyTest {
     @DisplayName("올바른 secret key로만 파싱 가능")
     fun parsingTokenWithRightSecretKeyType() {
         val secretKey = SecretKeySpec(
-            secretString.toByteArray(),
+            testSecretKeyString.toByteArray(),
             Jwts.SIG.HS256.key().build().algorithm
         )
 
@@ -94,7 +99,7 @@ class JwtWithSecretKeyTest {
     @DisplayName("payload의 value값이 string이 아니면 실패")
     fun parsingTokenWithWrongPayloadValueType() {
         val secretKey = SecretKeySpec(
-            secretString.toByteArray(),
+            testSecretKeyString.toByteArray(),
             Jwts.SIG.HS256.key().build().algorithm
         )
 

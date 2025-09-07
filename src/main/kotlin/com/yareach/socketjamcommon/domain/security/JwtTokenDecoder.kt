@@ -4,29 +4,23 @@ import com.yareach.socketjamcommon.util.JwtUtil
 import com.yareach.socketjamcommon.vo.user.UserVo
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import java.security.KeyFactory
+import java.security.interfaces.RSAPublicKey
 import java.util.UUID
-import javax.crypto.spec.SecretKeySpec
-import java.security.spec.X509EncodedKeySpec
-import java.util.Base64
-
+import javax.crypto.SecretKey
 
 class JwtTokenDecoder(
     private val decodingKey: DecodingKey,
 ) {
     companion object {
-        fun fromSecretKey(secretKeyString: String): JwtTokenDecoder {
-            val secretKey = SecretKeySpec(
-                secretKeyString.toByteArray(),
-                Jwts.SIG.HS256.key().build().algorithm
-            )
-
+        fun fromSecretKey(secretKey: SecretKey): JwtTokenDecoder {
+//            val secretKey = SecretKeySpec(
+//                secretKeyString.toByteArray(),
+//                Jwts.SIG.HS256.key().build().algorithm
+//            )
             return JwtTokenDecoder(UseSecretKey(secretKey))
         }
 
-        fun fromPublicKey(publicKeyString: String): JwtTokenDecoder {
-            val publicKey = JwtUtil.stringToPublicKey(publicKeyString)
-
+        fun fromPublicKey(publicKey: RSAPublicKey): JwtTokenDecoder {
             return JwtTokenDecoder(UsePublicKey(publicKey))
         }
     }
