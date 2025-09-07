@@ -1,5 +1,6 @@
 package com.yareach.socketjamcommon.domain.security
 
+import com.yareach.socketjamcommon.util.JwtUtil
 import com.yareach.socketjamcommon.vo.user.UserVo
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
@@ -24,11 +25,7 @@ class JwtTokenDecoder(
         }
 
         fun fromPublicKey(publicKeyString: String): JwtTokenDecoder {
-            val encoded: ByteArray = Base64.getDecoder().decode(publicKeyString)
-
-            val keyFactory = KeyFactory.getInstance("RSA")
-            val keySpec = X509EncodedKeySpec(encoded)
-            val publicKey = keyFactory.generatePublic(keySpec)
+            val publicKey = JwtUtil.stringToPublicKey(publicKeyString)
 
             return JwtTokenDecoder(UsePublicKey(publicKey))
         }

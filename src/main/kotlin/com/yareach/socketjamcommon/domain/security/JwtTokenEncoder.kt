@@ -1,5 +1,6 @@
 package com.yareach.socketjamcommon.domain.security
 
+import com.yareach.socketjamcommon.util.JwtUtil
 import com.yareach.socketjamcommon.vo.user.UserVo
 import io.jsonwebtoken.Jwts
 import java.security.Key
@@ -31,11 +32,7 @@ class JwtTokenEncoder(
             privateKeyString: String,
             expiredMs: Long = 24 * 60 * 60 * 1000,
         ): JwtTokenEncoder {
-            val encoded: ByteArray = Base64.getDecoder().decode(privateKeyString)
-
-            val keyFactory = KeyFactory.getInstance("RSA")
-            val keySpec = PKCS8EncodedKeySpec(encoded)
-            val privateKey = keyFactory.generatePrivate(keySpec)
+            val privateKey = JwtUtil.stringToPrivateKey(privateKeyString)
 
             return JwtTokenEncoder(privateKey, expiredMs)
         }
