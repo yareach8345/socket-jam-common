@@ -3,6 +3,7 @@ package com.yareach.socketjamcommon.util
 import com.yareach.socketjamcommon.domain.security.JwtTokenDecoder
 import com.yareach.socketjamcommon.domain.security.JwtTokenEncoder
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.assertNotNull
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -99,5 +100,21 @@ class JwtUtilTest {
         val secretKeyRe = jwtUtil.secretKeyToString(secretKey)
 
         assertEquals(SecretKeyString, secretKeyRe)
+    }
+
+    @Test
+    @DisplayName("Jwk 변환 테스트")
+    fun jwkTest() {
+        val publicKey = jwtUtil.stringToPublicKey(publicKeyString)
+
+        val jwk = jwtUtil.publicKeyToJwk(publicKey)
+
+        assertNotNull(jwk)
+
+        val rePublicKey = jwtUtil.jwkToPublicKey(jwk)
+
+        assertNotNull(rePublicKey)
+
+        assertEquals(publicKey, rePublicKey)
     }
 }
