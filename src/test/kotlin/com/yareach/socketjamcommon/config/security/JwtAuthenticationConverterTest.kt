@@ -1,6 +1,7 @@
 package com.yareach.socketjamcommon.config.security
 
-import com.yareach.socketjamcommon.util.JwtUtils
+import com.yareach.socketjamcommon.domain.security.JwtTokenDecoder
+import com.yareach.socketjamcommon.domain.security.JwtTokenEncoder
 import com.yareach.socketjamcommon.vo.user.UserVo
 import org.junit.jupiter.api.DisplayName
 import java.util.UUID
@@ -8,12 +9,13 @@ import kotlin.test.*
 
 class JwtAuthenticationConverterTest {
     val testSecretKey = "a-string-secret-256-bits-long-for-test"
-    val jwtUtils: JwtUtils = JwtUtils(testSecretKey)
-    val converter = JwtAuthenticationConverter(jwtUtils)
+    val jwtDecoder = JwtTokenDecoder.fromSecretKey(testSecretKey)
+    val jwtEncoder = JwtTokenEncoder.fromSecretKey(testSecretKey)
+    val converter = JwtAuthenticationConverter(jwtDecoder)
 
     val testUser = UserVo(UUID.randomUUID(), "testuser1234")
 
-    val testToken = jwtUtils.createJwt(testUser)
+    val testToken = jwtEncoder.createJwt(testUser)
 
     @Test
     @DisplayName("AuthHeader를 UsernamePasswordToken으로 변환")

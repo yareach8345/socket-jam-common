@@ -1,0 +1,55 @@
+package com.yareach.socketjamcommon.domain.security
+
+import com.yareach.socketjamcommon.vo.user.UserVo
+import io.jsonwebtoken.Jwts
+import java.security.Key
+import java.security.KeyFactory
+import java.security.spec.PKCS8EncodedKeySpec
+import java.util.Base64
+import java.util.Date
+import java.util.UUID
+import javax.crypto.spec.SecretKeySpec
+
+class JwtTokenEncoder(
+    private val secretKey: Key,
+    private val expiredMs: Long
+) {
+    companion object {
+        fun fromSecretKey(
+            secretKeyString: String,
+            expiredMs: Long = 24 * 60 * 60 * 1000,
+        ): JwtTokenEncoder {
+            val secretKey = SecretKeySpec(
+                secretKeyString.toByteArray(),
+                Jwts.SIG.HS256.key().build().algorithm
+            )
+
+            return JwtTokenEncoder(secretKey, expiredMs)
+        }
+
+        fun fromPrivateKey(
+            privateKeyString: String,
+            expiredMs: Long = 24 * 60 * 60 * 1000,
+        ): JwtTokenEncoder {
+            val encoded: ByteArray = Base64.getDecoder().decode(privateKeyString)
+
+            val keyFactory = KeyFactory.getInstance("RSA")
+            val keySpec = PKCS8EncodedKeySpec(encoded)
+            val privateKey = keyFactory.generatePrivate(keySpec)
+
+            return JwtTokenEncoder(privateKey, expiredMs)
+        }
+    }
+
+    fun createJwt(nickName: String, userId: UUID): String {
+        return Jwts.builder()
+            .claim("nickName", nickName)
+            .claim("userId", userId.toString())
+            .issuedAt(Date(System.currentTimeMillis()))
+            .expiration(Date(System.currentTimeMillis() + expiredMs))
+            .signWith(secretKey)
+            .compact()
+    }
+
+    fun createJwt(userVo: UserVo): String = createJwt(userVo.nickName, userVo.userId)
+}

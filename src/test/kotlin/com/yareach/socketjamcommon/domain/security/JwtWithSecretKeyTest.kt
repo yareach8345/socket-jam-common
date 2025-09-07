@@ -1,4 +1,5 @@
-import com.yareach.socketjamcommon.util.JwtUtils
+package com.yareach.socketjamcommon.domain.security
+
 import com.yareach.socketjamcommon.vo.user.UserVo
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.SignatureException
@@ -11,32 +12,45 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-class JwtUtilsTest {
+class JwtWithSecretKeyTest {
     private val secretString: String = "a-string-secret-256-bits-long-for-test"
 
-    private val jwtUtils = JwtUtils(secretString)
+    private val jwtEncoder = JwtTokenEncoder.fromSecretKey(secretString)
+    private val jwtDecoder = JwtTokenDecoder.fromSecretKey(secretString)
 
     val testUser = UserVo(UUID.randomUUID(), "testUser")
 
     @Test
     @DisplayName("Token 생성 테스트")
     fun generateToken() {
-        val jwt = jwtUtils.createJwt(testUser.nickName, testUser.userId)
+        val jwt = jwtEncoder.createJwt(testUser.nickName, testUser.userId)
 
-        assertTrue(jwtUtils.isValidToken(jwt))
-        assertEquals(testUser.nickName, jwtUtils.getUserName(jwt))
-        assertEquals(testUser.userId.toString(), jwtUtils.getUserId(jwt))
+        assertTrue(jwtDecoder.isValidToken(jwt))
+
+        assertEquals(testUser.nickName, jwtDecoder.getNickName(jwt))
+        assertEquals(testUser.userId.toString(), jwtDecoder.getUserId(jwt))
+
+        val userVo = jwtDecoder.getUserVo(jwt)
+
+        assertEquals(testUser.nickName, userVo.nickName)
+        assertEquals(testUser.userId, userVo.userId)
     }
 
 
     @Test
     @DisplayName("UserVo로 token 생성")
     fun generateTokenWithUserVo() {
-        val jwt = jwtUtils.createJwt(testUser)
+        val jwt = jwtEncoder.createJwt(testUser)
 
-        assertTrue(jwtUtils.isValidToken(jwt))
-        assertEquals(testUser.nickName, jwtUtils.getUserName(jwt))
-        assertEquals(testUser.userId.toString(), jwtUtils.getUserId(jwt))
+        assertTrue(jwtDecoder.isValidToken(jwt))
+
+        assertEquals(testUser.nickName, jwtDecoder.getNickName(jwt))
+        assertEquals(testUser.userId.toString(), jwtDecoder.getUserId(jwt))
+
+        val userVo = jwtDecoder.getUserVo(jwt)
+
+        assertEquals(testUser.nickName, userVo.nickName)
+        assertEquals(testUser.userId, userVo.userId)
     }
 
     @Test
@@ -47,11 +61,17 @@ class JwtUtilsTest {
             Jwts.SIG.HS256.key().build().algorithm
         )
 
-        val token = jwtUtils.createJwt(testUser)
+        val token = jwtEncoder.createJwt(testUser)
 
-        assertTrue{ Jwts.parser().verifyWith(secretKey).build().isSigned(token)}
-        assertEquals( testUser.nickName, Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).payload["userName"] )
-        assertEquals( testUser.userId.toString(), Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).payload["userId"] )
+        assertTrue { Jwts.parser().verifyWith(secretKey).build().isSigned(token) }
+        assertEquals(
+            testUser.nickName,
+            Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).payload["nickName"]
+        )
+        assertEquals(
+            testUser.userId.toString(),
+            Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).payload["userId"]
+        )
     }
 
     @Test
@@ -63,9 +83,11 @@ class JwtUtilsTest {
             Jwts.SIG.HS256.key().build().algorithm
         )
 
-        val token = jwtUtils.createJwt(testUser)
+        val token = jwtEncoder.createJwt(testUser)
 
-        assertFailsWith(SignatureException::class) { Jwts.parser().verifyWith(wrongSecretKey).build().parseSignedClaims(token) }
+        assertFailsWith(SignatureException::class) {
+            Jwts.parser().verifyWith(wrongSecretKey).build().parseSignedClaims(token)
+        }
     }
 
     @Test
@@ -84,7 +106,7 @@ class JwtUtilsTest {
             .signWith(secretKey)
             .compact()
 
-        assertFailsWith(IllegalArgumentException::class) { jwtUtils.getUserName(token) }
-        assertFailsWith(IllegalArgumentException::class) { jwtUtils.getUserId(token) }
+        assertFailsWith(IllegalArgumentException::class) { jwtDecoder.getNickName(token) }
+        assertFailsWith(IllegalArgumentException::class) { jwtDecoder.getUserId(token) }
     }
 }

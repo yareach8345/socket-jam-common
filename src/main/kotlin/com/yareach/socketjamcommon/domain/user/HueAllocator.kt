@@ -1,4 +1,4 @@
-package com.yareach.socketjamcommon.domain
+package com.yareach.socketjamcommon.domain.user
 
 import com.yareach.socketjamcommon.vo.room.RoomVo
 

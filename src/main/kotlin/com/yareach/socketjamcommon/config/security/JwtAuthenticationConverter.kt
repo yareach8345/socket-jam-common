@@ -1,10 +1,10 @@
 package com.yareach.socketjamcommon.config.security
 
-import com.yareach.socketjamcommon.util.JwtUtils
+import com.yareach.socketjamcommon.domain.security.JwtTokenDecoder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 
 class JwtAuthenticationConverter(
-    private val jwtUtils: JwtUtils
+    private val jwtUtils: JwtTokenDecoder
 ) {
     fun convert(authHeader: String): UsernamePasswordAuthenticationToken? {
         val token = authHeader
@@ -16,7 +16,7 @@ class JwtAuthenticationConverter(
             return null
         }
 
-        val nickName = jwtUtils.getUserName(token)
+        val nickName = jwtUtils.getNickName(token)
 
         val userId = jwtUtils.getUserId(token)
 

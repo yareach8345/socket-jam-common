@@ -1,4 +1,4 @@
-package com.yareach.socketjamcommon.domain
+package com.yareach.socketjamcommon.domain.user
 
 import com.yareach.socketjamcommon.vo.room.RoomMemberVo
 import com.yareach.socketjamcommon.vo.room.RoomVo
@@ -20,7 +20,7 @@ class HueAllocatorTest {
 
         val newHueValue = hueAllocator.getRandomHueValue()
 
-        assertTrue(usedHueValues.none{ it == newHueValue })
+        assertTrue(usedHueValues.none { it == newHueValue })
         assertEquals(0, newHueValue % (360 / maxUserCount))
     }
 
@@ -41,7 +41,7 @@ class HueAllocatorTest {
 
         val newHueValue = hueAllocator.getRandomHueValue()
 
-        assertTrue(usedHueValues.none{ it == newHueValue })
+        assertTrue(usedHueValues.none { it == newHueValue })
         assertEquals(randomHueValue, newHueValue)
     }
 
@@ -62,7 +62,10 @@ class HueAllocatorTest {
         val usedHueValues = setOf(36, 72, 1)
 
         val exception = assertThrows<IllegalArgumentException> { HueAllocator(usedHueValues, maxUserCount) }
-        assertEquals("Values in usedHueValues set must divisible by 360 / maxUserCount(${360 / maxUserCount})", exception.message)
+        assertEquals(
+            "Values in usedHueValues set must divisible by 360 / maxUserCount(${360 / maxUserCount})",
+            exception.message
+        )
     }
 
     @Test
@@ -73,7 +76,7 @@ class HueAllocatorTest {
 
         val exception = assertThrows<IllegalArgumentException> { HueAllocator(usedHueValues, maxUserCount) }
         assertEquals("Values in usedHueValues set must be in 0..<360", exception.message)
-        assertTrue(usedHueValues.all{ it % 36 == 0 })
+        assertTrue(usedHueValues.all { it % 36 == 0 })
     }
 
     @Test
@@ -82,7 +85,7 @@ class HueAllocatorTest {
         val roomVo = RoomVo(
             id = "12345",
             roomName = "testRoom",
-            users = listOf( RoomMemberVo( UUID.randomUUID(), 0, "tester", LocalDateTime.now() ) ),
+            users = listOf(RoomMemberVo(UUID.randomUUID(), 0, "tester", LocalDateTime.now())),
             userCount = 1,
             maxUserCount = 2
         )
