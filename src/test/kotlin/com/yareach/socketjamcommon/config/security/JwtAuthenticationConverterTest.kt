@@ -2,18 +2,18 @@ package com.yareach.socketjamcommon.config.security
 
 import com.yareach.socketjamcommon.domain.security.JwtTokenDecoder
 import com.yareach.socketjamcommon.domain.security.JwtTokenEncoder
-import com.yareach.socketjamcommon.utils.KetConverter
+import com.yareach.socketjamcommon.utils.KeyConverter
 import com.yareach.socketjamcommon.vo.user.UserVo
 import org.junit.jupiter.api.DisplayName
 import java.util.UUID
 import kotlin.test.*
 
 class JwtAuthenticationConverterTest {
-    val ketConverter = KetConverter()
+    val keyConverter = KeyConverter()
 
     val testSecretKeyString = "a-string-secret-256-bits-long-for-test"
 
-    val testSecretKey = ketConverter.stringToSecretKey(testSecretKeyString)
+    val testSecretKey = keyConverter.stringToSecretKey(testSecretKeyString)
 
     val jwtDecoder = JwtTokenDecoder.fromSecretKey(testSecretKey)
     val jwtEncoder = JwtTokenEncoder.fromSecretKey(testSecretKey)

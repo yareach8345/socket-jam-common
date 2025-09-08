@@ -8,8 +8,8 @@ import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class JwtUtilTest {
-    private val ketConverter = KetConverter()
+class KeyConverter {
+    private val keyConverter = KeyConverter()
 
     val publicKeyString = """
         -----BEGIN PUBLIC KEY-----
@@ -59,11 +59,11 @@ class JwtUtilTest {
     @Test
     @DisplayName("public key를 변환하여 decoder 생성")
     fun publicKeyTest() {
-        val rsaPublicKey = ketConverter.stringToPublicKey(publicKeyString)
+        val rsaPublicKey = keyConverter.stringToPublicKey(publicKeyString)
 
         JwtTokenDecoder.fromPublicKey(rsaPublicKey)
 
-        val publicKeyStr = ketConverter.rsaPublicKeyToString(rsaPublicKey)
+        val publicKeyStr = keyConverter.rsaPublicKeyToString(rsaPublicKey)
 
         assertEquals(publicKeyString, publicKeyStr)
     }
@@ -71,11 +71,11 @@ class JwtUtilTest {
     @Test
     @DisplayName("private key를 변환하여 encoder 생성")
     fun privateKeyTest() {
-        val rsaPrivateKey = ketConverter.stringToPrivateKey(privateKeyString)
+        val rsaPrivateKey = keyConverter.stringToPrivateKey(privateKeyString)
 
         JwtTokenEncoder.fromPrivateKey(rsaPrivateKey)
 
-        val privateKey = ketConverter.rsaPrivateKeyToString(rsaPrivateKey)
+        val privateKey = keyConverter.rsaPrivateKeyToString(rsaPrivateKey)
 
         assertEquals(privateKeyString, privateKey)
     }
@@ -83,7 +83,7 @@ class JwtUtilTest {
     @Test
     @DisplayName("secret key를 변환하여 encoder, decoder 생성")
     fun secretKeyTest() {
-        val secretKey = ketConverter.stringToSecretKey(SecretKeyString)
+        val secretKey = keyConverter.stringToSecretKey(SecretKeyString)
 
         val encoder = JwtTokenEncoder.fromSecretKey(secretKey)
         val decoder = JwtTokenDecoder.fromSecretKey(secretKey)
@@ -97,7 +97,7 @@ class JwtUtilTest {
         assertEquals("test", userVo.nickName)
         assertEquals(uuid, userVo.userId)
 
-        val secretKeyRe = ketConverter.secretKeyToString(secretKey)
+        val secretKeyRe = keyConverter.secretKeyToString(secretKey)
 
         assertEquals(SecretKeyString, secretKeyRe)
     }
@@ -105,13 +105,13 @@ class JwtUtilTest {
     @Test
     @DisplayName("Jwk 변환 테스트")
     fun jwkTest() {
-        val publicKey = ketConverter.stringToPublicKey(publicKeyString)
+        val publicKey = keyConverter.stringToPublicKey(publicKeyString)
 
-        val jwk = ketConverter.publicKeyToJwk(publicKey)
+        val jwk = keyConverter.publicKeyToJwk(publicKey)
 
         assertNotNull(jwk)
 
-        val rePublicKey = ketConverter.jwkToPublicKey(jwk)
+        val rePublicKey = keyConverter.jwkToPublicKey(jwk)
 
         assertNotNull(rePublicKey)
 

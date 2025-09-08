@@ -15,7 +15,7 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 
 @Component
-class KetConverter {
+class KeyConverter {
     fun stringToPublicKey(publicKeyString: String): RSAPublicKey {
         val publicKeyPEM = publicKeyString
             .replace("-----BEGIN PUBLIC KEY-----", "")
