@@ -1,9 +1,9 @@
 package com.yareach.socketjamcommon.enums
 
 enum class ServiceHost(val uri: String) {
-    AUTH("http://socket-jam-auth.com"),
-    ROOM("http://socket-jam-backend.com"),
-    SOCKET("http://socket-jam-socket.com");
+    AUTH("http://socket-jam-auth"),
+    ROOM("http://socket-jam-backend"),
+    SOCKET("http://socket-jam-socket");
 
     override fun toString() = uri
 
