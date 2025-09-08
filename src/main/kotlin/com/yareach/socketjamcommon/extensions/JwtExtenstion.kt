@@ -1,6 +1,6 @@
-package com.yareach.socketjamcommon.extension
+package com.yareach.socketjamcommon.extensions
 
-import com.yareach.socketjamcommon.dto.auth.JwksDto
+import com.yareach.socketjamcommon.dto.JwksDto
 import com.yareach.socketjamcommon.vo.auth.JwkVo
 
 fun JwkVo.toJwksDto() = JwksDto(

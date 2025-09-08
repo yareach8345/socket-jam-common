@@ -1,6 +1,6 @@
 package com.yareach.socketjamcommon.domain.security
 
-import com.yareach.socketjamcommon.util.JwtUtil
+import com.yareach.socketjamcommon.utils.KetConverter
 import com.yareach.socketjamcommon.vo.user.UserVo
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.SignatureException
@@ -14,11 +14,11 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class JwtWithSecretKeyTest {
-    private val jwtUtil = JwtUtil()
+    private val ketConverter = KetConverter()
 
     private val testSecretKeyString: String = "a-string-secret-256-bits-long-for-test"
 
-    private val secretKey = jwtUtil.stringToSecretKey(testSecretKeyString)
+    private val secretKey = ketConverter.stringToSecretKey(testSecretKeyString)
 
     private val jwtEncoder = JwtTokenEncoder.fromSecretKey(secretKey)
     private val jwtDecoder = JwtTokenDecoder.fromSecretKey(secretKey)

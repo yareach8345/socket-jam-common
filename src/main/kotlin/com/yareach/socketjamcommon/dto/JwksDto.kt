@@ -1,4 +1,4 @@
-package com.yareach.socketjamcommon.dto.auth
+package com.yareach.socketjamcommon.dto
 
 data class JwksDto(
     val kty: String,

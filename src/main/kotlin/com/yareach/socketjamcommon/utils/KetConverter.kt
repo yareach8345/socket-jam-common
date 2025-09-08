@@ -1,11 +1,10 @@
-package com.yareach.socketjamcommon.util
+package com.yareach.socketjamcommon.utils
 
 import com.yareach.socketjamcommon.vo.auth.JwkVo
 import io.jsonwebtoken.Jwts
 import org.springframework.stereotype.Component
 import java.math.BigInteger
 import java.security.KeyFactory
-import java.security.PublicKey
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import java.security.spec.PKCS8EncodedKeySpec
@@ -16,7 +15,7 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 
 @Component
-class JwtUtil {
+class KetConverter {
     fun stringToPublicKey(publicKeyString: String): RSAPublicKey {
         val publicKeyPEM = publicKeyString
             .replace("-----BEGIN PUBLIC KEY-----", "")

@@ -1,6 +1,5 @@
 package com.yareach.socketjamcommon.domain.security
 
-import com.yareach.socketjamcommon.util.JwtUtil
 import com.yareach.socketjamcommon.vo.user.UserVo
 import io.jsonwebtoken.Jwts
 import java.security.Key

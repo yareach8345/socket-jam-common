@@ -1,4 +1,4 @@
-package com.yareach.socketjamcommon.extension
+package com.yareach.socketjamcommon.extensions
 
 import com.yareach.socketjamcommon.config.security.CustomUserDetail
 import com.yareach.socketjamcommon.vo.user.UserVo
