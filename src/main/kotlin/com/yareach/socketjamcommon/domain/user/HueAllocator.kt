@@ -1,6 +1,6 @@
 package com.yareach.socketjamcommon.domain.user
 
-import com.yareach.socketjamcommon.vo.room.RoomVo
+import com.yareach.socketjamcommon.dto.room.RoomDto
 
 class HueAllocator(
     private val usedHueValues: Set<Int>,
@@ -29,7 +29,7 @@ class HueAllocator(
     fun getRandomHueValue() = usableHueValues.random()
 }
 
-fun HueAllocator(roomVo: RoomVo): HueAllocator {
-    val usedHueValues = roomVo.users.map { it.colorHue }.toSet()
-    return HueAllocator(usedHueValues, roomVo.maxUserCount)
+fun HueAllocator(roomDto: RoomDto): HueAllocator {
+    val usedHueValues = roomDto.users.map { it.colorHue }.toSet()
+    return HueAllocator(usedHueValues, roomDto.maxUserCount)
 }

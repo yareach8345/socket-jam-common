@@ -1,6 +1,6 @@
 package com.yareach.socketjamcommon.domain.security
 
-import com.yareach.socketjamcommon.vo.user.UserVo
+import com.yareach.socketjamcommon.dto.user.UserDto
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.SignatureException
 import org.junit.jupiter.api.DisplayName
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 import java.security.KeyPairGenerator
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
-import java.util.Base64
 import java.util.Date
 import java.util.UUID
 import kotlin.test.assertEquals
@@ -27,7 +26,7 @@ class JwtWithPublicKeyPrivateKeyTest {
     private val jwtEncoder = JwtTokenEncoder.fromPrivateKey( privateKey as RSAPrivateKey )
     private val jwtDecoder = JwtTokenDecoder.fromPublicKey( publicKey as RSAPublicKey )
 
-    val testUser = UserVo(UUID.randomUUID(), "testUser")
+    val testUser = UserDto(UUID.randomUUID(), "testUser")
 
     @Test
     @DisplayName("Token 생성 테스트")
@@ -39,7 +38,7 @@ class JwtWithPublicKeyPrivateKeyTest {
         assertEquals(testUser.nickName, jwtDecoder.getNickName(jwt))
         assertEquals(testUser.userId.toString(), jwtDecoder.getUserId(jwt))
 
-        val userVo = jwtDecoder.getUserVo(jwt)
+        val userVo = jwtDecoder.getUserDto(jwt)
 
         assertEquals(testUser.nickName, userVo.nickName)
         assertEquals(testUser.userId, userVo.userId)
@@ -56,7 +55,7 @@ class JwtWithPublicKeyPrivateKeyTest {
         assertEquals(testUser.nickName, jwtDecoder.getNickName(jwt))
         assertEquals(testUser.userId.toString(), jwtDecoder.getUserId(jwt))
 
-        val userVo = jwtDecoder.getUserVo(jwt)
+        val userVo = jwtDecoder.getUserDto(jwt)
 
         assertEquals(testUser.nickName, userVo.nickName)
         assertEquals(testUser.userId, userVo.userId)

@@ -1,7 +1,7 @@
 package com.yareach.socketjamcommon.domain.user
 
-import com.yareach.socketjamcommon.vo.room.RoomMemberVo
-import com.yareach.socketjamcommon.vo.room.RoomVo
+import com.yareach.socketjamcommon.dto.user.RoomMemberDto
+import com.yareach.socketjamcommon.dto.room.RoomDto
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.assertThrows
 import java.time.LocalDateTime
@@ -82,10 +82,10 @@ class HueAllocatorTest {
     @Test
     @DisplayName("RoomVo로 HueAllocator 객체 생성")
     fun generateHueAllocatorWithRoomVo() {
-        val roomVo = RoomVo(
+        val roomVo = RoomDto(
             id = "12345",
             roomName = "testRoom",
-            users = listOf(RoomMemberVo(UUID.randomUUID(), 0, "tester", LocalDateTime.now())),
+            users = listOf(RoomMemberDto(UUID.randomUUID(), 0, "tester", LocalDateTime.now())),
             userCount = 1,
             maxUserCount = 2
         )

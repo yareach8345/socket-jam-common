@@ -1,7 +1,7 @@
 package com.yareach.socketjamcommon.domain.security
 
 import com.yareach.socketjamcommon.utils.KeyConverter
-import com.yareach.socketjamcommon.vo.user.UserVo
+import com.yareach.socketjamcommon.dto.user.UserDto
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.SignatureException
 import org.junit.jupiter.api.DisplayName
@@ -23,7 +23,7 @@ class JwtWithSecretKeyTest {
     private val jwtEncoder = JwtTokenEncoder.fromSecretKey(secretKey)
     private val jwtDecoder = JwtTokenDecoder.fromSecretKey(secretKey)
 
-    val testUser = UserVo(UUID.randomUUID(), "testUser")
+    val testUser = UserDto(UUID.randomUUID(), "testUser")
 
     @Test
     @DisplayName("Token 생성 테스트")
@@ -35,7 +35,7 @@ class JwtWithSecretKeyTest {
         assertEquals(testUser.nickName, jwtDecoder.getNickName(jwt))
         assertEquals(testUser.userId.toString(), jwtDecoder.getUserId(jwt))
 
-        val userVo = jwtDecoder.getUserVo(jwt)
+        val userVo = jwtDecoder.getUserDto(jwt)
 
         assertEquals(testUser.nickName, userVo.nickName)
         assertEquals(testUser.userId, userVo.userId)
@@ -52,7 +52,7 @@ class JwtWithSecretKeyTest {
         assertEquals(testUser.nickName, jwtDecoder.getNickName(jwt))
         assertEquals(testUser.userId.toString(), jwtDecoder.getUserId(jwt))
 
-        val userVo = jwtDecoder.getUserVo(jwt)
+        val userVo = jwtDecoder.getUserDto(jwt)
 
         assertEquals(testUser.nickName, userVo.nickName)
         assertEquals(testUser.userId, userVo.userId)

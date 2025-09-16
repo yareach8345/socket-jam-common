@@ -1,6 +1,6 @@
 package com.yareach.socketjamcommon.domain.security
 
-import com.yareach.socketjamcommon.vo.user.UserVo
+import com.yareach.socketjamcommon.dto.user.UserDto
 import io.jsonwebtoken.Jwts
 import java.security.Key
 import java.security.interfaces.RSAPrivateKey
@@ -45,5 +45,5 @@ class JwtTokenEncoder(
             .compact()
     }
 
-    fun createJwt(userVo: UserVo): String = createJwt(userVo.nickName, userVo.userId)
+    fun createJwt(userDto: UserDto): String = createJwt(userDto.nickName, userDto.userId)
 }

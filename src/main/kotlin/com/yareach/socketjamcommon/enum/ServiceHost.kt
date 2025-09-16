@@ -1,4 +1,4 @@
-package com.yareach.socketjamcommon.enums
+package com.yareach.socketjamcommon.enum
 
 enum class ServiceHost(val uri: String) {
     AUTH("http://socket-jam-auth"),

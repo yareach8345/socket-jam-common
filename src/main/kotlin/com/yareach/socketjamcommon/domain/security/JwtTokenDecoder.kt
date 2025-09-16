@@ -1,6 +1,6 @@
 package com.yareach.socketjamcommon.domain.security
 
-import com.yareach.socketjamcommon.vo.user.UserVo
+import com.yareach.socketjamcommon.dto.user.UserDto
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import java.security.interfaces.RSAPublicKey
@@ -40,10 +40,10 @@ class JwtTokenDecoder(
 
     fun isValidToken(token: String): Boolean = Jwts.parser().let(decodingKey::verify).build().isSigned(token)
 
-    fun getUserVo(token: String): UserVo {
+    fun getUserDto(token: String): UserDto {
         val nickName = getNickName(token)
         val userId = getUserId(token)
 
-        return UserVo(UUID.fromString(userId), nickName)
+        return UserDto(UUID.fromString(userId), nickName)
     }
 }

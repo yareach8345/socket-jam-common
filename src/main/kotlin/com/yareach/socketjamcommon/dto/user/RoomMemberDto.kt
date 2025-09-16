@@ -1,9 +1,9 @@
-package com.yareach.socketjamcommon.vo.room
+package com.yareach.socketjamcommon.dto.user
 
 import java.time.LocalDateTime
 import java.util.UUID
 
-data class RoomMemberVo(
+data class RoomMemberDto(
     val userId: UUID,
     val colorHue: Int,
     val nickName: String,

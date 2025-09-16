@@ -1,14 +1,11 @@
 package com.yareach.socketjamcommon.utils
 
-import com.yareach.socketjamcommon.vo.auth.JwkVo
 import io.jsonwebtoken.Jwts
 import org.springframework.stereotype.Component
-import java.math.BigInteger
 import java.security.KeyFactory
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import java.security.spec.PKCS8EncodedKeySpec
-import java.security.spec.RSAPublicKeySpec
 import java.security.spec.X509EncodedKeySpec
 import java.util.Base64
 import javax.crypto.SecretKey
@@ -36,31 +33,6 @@ class KeyConverter {
             encoded.chunked(64).forEach { appendLine(it) }
             appendLine("-----END PUBLIC KEY-----")
         }
-    }
-
-    fun publicKeyToJwk(publicKey: RSAPublicKey): JwkVo {
-        val nBytes = publicKey.modulus.toByteArray()
-        val eBytes = publicKey.publicExponent.toByteArray()
-
-        val encoder = Base64.getUrlEncoder().withoutPadding()
-        val nBase64 = encoder.encodeToString(nBytes)
-        val eBase64 = encoder.encodeToString(eBytes)
-
-        return JwkVo(
-            kty = "RSA",
-            n = nBase64,
-            e = eBase64
-        )
-    }
-
-    fun jwkToPublicKey(jwk: JwkVo): RSAPublicKey {
-        val decoder = Base64.getUrlDecoder()
-        val modulus = BigInteger(1, decoder.decode(jwk.n))
-        val exponent = BigInteger(1, decoder.decode(jwk.e))
-
-        val spec = RSAPublicKeySpec(modulus, exponent)
-        val keyFactory = KeyFactory.getInstance("RSA")
-        return keyFactory.generatePublic(spec) as RSAPublicKey
     }
 
     fun stringToPrivateKey(privateKeyString: String): RSAPrivateKey {
