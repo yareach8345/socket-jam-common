@@ -3,10 +3,11 @@ package com.yareach.socketjamcommon.config.security
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.util.UUID
 import kotlin.collections.map
 
 class CustomUserDetail(
-    val userId: String,
+    val userId: UUID,
     val nickName: String,
     val role: List<String>
 ): UserDetails {
@@ -19,6 +20,6 @@ class CustomUserDetail(
     }
 
     override fun getUsername(): String {
-        return userId
+        return userId.toString()
     }
 }

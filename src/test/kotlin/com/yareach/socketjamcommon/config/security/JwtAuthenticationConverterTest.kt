@@ -33,7 +33,7 @@ class JwtAuthenticationConverterTest {
 
         assertNotNull(result)
         assertEquals(userDetail.nickName, testUser.nickName)
-        assertEquals(userDetail.userId, testUser.userId.toString())
+        assertEquals(userDetail.userId, testUser.userId)
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.yareach.socketjamcommon.config.security
 
 import com.yareach.socketjamcommon.domain.security.JwtTokenDecoder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import java.util.UUID
 
 class JwtAuthenticationConverter(
     private val jwtUtils: JwtTokenDecoder
@@ -22,7 +23,11 @@ class JwtAuthenticationConverter(
 
         val role = listOf("USER")
 
-        val customUserDetails = CustomUserDetail(userId, nickName, role)
+        val customUserDetails = CustomUserDetail(
+            userId = UUID.fromString(userId),
+            nickName = nickName,
+            role = role
+        )
 
         return UsernamePasswordAuthenticationToken(
             customUserDetails,
