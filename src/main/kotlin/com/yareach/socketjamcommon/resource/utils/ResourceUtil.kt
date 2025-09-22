@@ -1,10 +1,7 @@
-package com.yareach.socketjamcommon.utils
+package com.yareach.socketjamcommon.resource.utils
 
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import kotlin.io.bufferedReader
-import kotlin.io.readText
-import kotlin.io.use
 
 @Component
 class ResourceUtil {

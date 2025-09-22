@@ -1,5 +1,6 @@
 package com.yareach.socketjamcommon.enum
 
+import com.yareach.socketjamcommon.service.enum.ServiceHost
 import org.junit.jupiter.api.DisplayName
 import kotlin.test.Test
 import kotlin.test.assertEquals

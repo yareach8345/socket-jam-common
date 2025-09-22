@@ -1,6 +1,10 @@
 package com.yareach.socketjamcommon.domain.security
 
-import com.yareach.socketjamcommon.dto.user.UserDto
+import com.yareach.socketjamcommon.user.dto.UserAuthDto
+import com.yareach.socketjamcommon.security.domain.JwtTokenDecoder
+import com.yareach.socketjamcommon.security.domain.JwtTokenEncoder
+import com.yareach.socketjamcommon.security.domain.TokenDecoder
+import com.yareach.socketjamcommon.security.domain.TokenEncoder
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.SignatureException
 import org.junit.jupiter.api.DisplayName
@@ -23,24 +27,22 @@ class JwtWithPublicKeyPrivateKeyTest {
     private val privateKey = keyPair.private
     private val publicKey = keyPair.public
 
-    private val jwtEncoder = JwtTokenEncoder.fromPrivateKey( privateKey as RSAPrivateKey )
-    private val jwtDecoder = JwtTokenDecoder.fromPublicKey( publicKey as RSAPublicKey )
+    private val jwtEncoder = TokenEncoder( privateKey as RSAPrivateKey )
+    private val jwtDecoder = TokenDecoder( publicKey as RSAPublicKey )
 
-    val testUser = UserDto(UUID.randomUUID(), "testUser")
+    val testUser = UserAuthDto(UUID.randomUUID())
 
     @Test
     @DisplayName("Token 생성 테스트")
     fun generateToken() {
-        val jwt = jwtEncoder.createJwt(testUser.nickName, testUser.userId)
+        val jwt = jwtEncoder.createJwt(testUser.userId)
 
         assertTrue(jwtDecoder.isValidToken(jwt))
 
-        assertEquals(testUser.nickName, jwtDecoder.getNickName(jwt))
         assertEquals(testUser.userId.toString(), jwtDecoder.getUserId(jwt))
 
         val userVo = jwtDecoder.getUserDto(jwt)
 
-        assertEquals(testUser.nickName, userVo.nickName)
         assertEquals(testUser.userId, userVo.userId)
     }
 
@@ -52,12 +54,10 @@ class JwtWithPublicKeyPrivateKeyTest {
 
         assertTrue(jwtDecoder.isValidToken(jwt))
 
-        assertEquals(testUser.nickName, jwtDecoder.getNickName(jwt))
         assertEquals(testUser.userId.toString(), jwtDecoder.getUserId(jwt))
 
         val userVo = jwtDecoder.getUserDto(jwt)
 
-        assertEquals(testUser.nickName, userVo.nickName)
         assertEquals(testUser.userId, userVo.userId)
     }
 
@@ -67,10 +67,6 @@ class JwtWithPublicKeyPrivateKeyTest {
         val token = jwtEncoder.createJwt(testUser)
 
         assertTrue { Jwts.parser().verifyWith(publicKey).build().isSigned(token) }
-        assertEquals(
-            testUser.nickName,
-            Jwts.parser().verifyWith(publicKey).build().parseSignedClaims(token).payload["nickName"]
-        )
         assertEquals(
             testUser.userId.toString(),
             Jwts.parser().verifyWith(publicKey).build().parseSignedClaims(token).payload["userId"]
@@ -104,7 +100,6 @@ class JwtWithPublicKeyPrivateKeyTest {
             .signWith(privateKey)
             .compact()
 
-        assertFailsWith(IllegalArgumentException::class) { jwtDecoder.getNickName(token) }
         assertFailsWith(IllegalArgumentException::class) { jwtDecoder.getUserId(token) }
     }
 }

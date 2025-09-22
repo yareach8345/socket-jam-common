@@ -1,4 +1,4 @@
-package com.yareach.socketjamcommon.utils
+package com.yareach.socketjamcommon.security.utils
 
 import io.jsonwebtoken.Jwts
 import org.springframework.stereotype.Component

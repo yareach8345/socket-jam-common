@@ -1,6 +1,6 @@
-package com.yareach.socketjamcommon.dto.room
+package com.yareach.socketjamcommon.room.dto
 
-import com.yareach.socketjamcommon.dto.user.RoomMemberDto
+import com.yareach.socketjamcommon.user.dto.RoomMemberDto
 
 data class RoomDto(
     val id: String,

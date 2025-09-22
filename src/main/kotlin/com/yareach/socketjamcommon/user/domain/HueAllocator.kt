@@ -1,6 +1,6 @@
-package com.yareach.socketjamcommon.domain.user
+package com.yareach.socketjamcommon.user.domain
 
-import com.yareach.socketjamcommon.dto.room.RoomDto
+import com.yareach.socketjamcommon.room.dto.RoomDto
 
 class HueAllocator(
     private val usedHueValues: Set<Int>,

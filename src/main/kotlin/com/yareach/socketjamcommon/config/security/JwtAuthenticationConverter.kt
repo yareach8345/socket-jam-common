@@ -1,11 +1,11 @@
 package com.yareach.socketjamcommon.config.security
 
-import com.yareach.socketjamcommon.domain.security.JwtTokenDecoder
+import com.yareach.socketjamcommon.security.domain.TokenDecoder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import java.util.UUID
 
 class JwtAuthenticationConverter(
-    private val jwtUtils: JwtTokenDecoder
+    private val jwtUtils: TokenDecoder
 ) {
     fun convert(authHeader: String): UsernamePasswordAuthenticationToken? {
         val token = authHeader
@@ -17,15 +17,12 @@ class JwtAuthenticationConverter(
             return null
         }
 
-        val nickName = jwtUtils.getNickName(token)
-
         val userId = jwtUtils.getUserId(token)
 
         val role = listOf("USER")
 
         val customUserDetails = CustomUserDetail(
             userId = UUID.fromString(userId),
-            nickName = nickName,
             role = role
         )
 

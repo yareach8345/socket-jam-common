@@ -8,7 +8,6 @@ import kotlin.collections.map
 
 class CustomUserDetail(
     val userId: UUID,
-    val nickName: String,
     val role: List<String>
 ): UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority?> {

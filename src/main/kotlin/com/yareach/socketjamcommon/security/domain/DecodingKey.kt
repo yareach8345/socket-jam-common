@@ -1,4 +1,4 @@
-package com.yareach.socketjamcommon.domain.security
+package com.yareach.socketjamcommon.security.domain
 
 import io.jsonwebtoken.JwtParserBuilder
 import java.security.PublicKey

@@ -1,4 +1,4 @@
-package com.yareach.socketjamcommon.enum
+package com.yareach.socketjamcommon.user.enum
 
 enum class UserRole {
     MEMBER,

@@ -1,4 +1,4 @@
-package com.yareach.socketjamcommon.dto.user
+package com.yareach.socketjamcommon.user.dto
 
 import java.time.LocalDateTime
 import java.util.UUID

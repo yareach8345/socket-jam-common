@@ -1,9 +1,11 @@
 package com.yareach.socketjamcommon.config.security
 
-import com.yareach.socketjamcommon.domain.security.JwtTokenDecoder
-import com.yareach.socketjamcommon.domain.security.JwtTokenEncoder
-import com.yareach.socketjamcommon.utils.KeyConverter
-import com.yareach.socketjamcommon.dto.user.UserDto
+import com.yareach.socketjamcommon.security.domain.JwtTokenDecoder
+import com.yareach.socketjamcommon.security.domain.JwtTokenEncoder
+import com.yareach.socketjamcommon.security.domain.TokenDecoder
+import com.yareach.socketjamcommon.security.domain.TokenEncoder
+import com.yareach.socketjamcommon.security.utils.KeyConverter
+import com.yareach.socketjamcommon.user.dto.UserAuthDto
 import org.junit.jupiter.api.DisplayName
 import java.util.UUID
 import kotlin.test.*
@@ -15,11 +17,11 @@ class JwtAuthenticationConverterTest {
 
     val testSecretKey = keyConverter.stringToSecretKey(testSecretKeyString)
 
-    val jwtDecoder = JwtTokenDecoder.fromSecretKey(testSecretKey)
-    val jwtEncoder = JwtTokenEncoder.fromSecretKey(testSecretKey)
+    val jwtDecoder = TokenDecoder(testSecretKey)
+    val jwtEncoder = TokenEncoder(testSecretKey)
     val converter = JwtAuthenticationConverter(jwtDecoder)
 
-    val testUser = UserDto(UUID.randomUUID(), "testuser1234")
+    val testUser = UserAuthDto(UUID.randomUUID())
 
     val testToken = jwtEncoder.createJwt(testUser)
 
@@ -32,7 +34,6 @@ class JwtAuthenticationConverterTest {
         val userDetail = result?.principal as CustomUserDetail
 
         assertNotNull(result)
-        assertEquals(userDetail.nickName, testUser.nickName)
         assertEquals(userDetail.userId, testUser.userId)
     }
 
