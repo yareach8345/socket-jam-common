@@ -1,6 +1,6 @@
 package com.yareach.socketjamcommon.user.extensions
 
 import com.yareach.socketjamcommon.config.security.CustomUserDetail
-import com.yareach.socketjamcommon.user.dto.UserAuthDto
+import com.yareach.socketjamcommon.user.model.UserIdentify
 
-fun CustomUserDetail.toUserAuthDto() = UserAuthDto( userId = userId )
+fun CustomUserDetail.toUserIdentify() = UserIdentify( userId = userId )

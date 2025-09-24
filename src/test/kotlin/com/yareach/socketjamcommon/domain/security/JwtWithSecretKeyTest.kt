@@ -1,9 +1,7 @@
 package com.yareach.socketjamcommon.domain.security
 
 import com.yareach.socketjamcommon.security.utils.KeyConverter
-import com.yareach.socketjamcommon.user.dto.UserAuthDto
-import com.yareach.socketjamcommon.security.domain.JwtTokenDecoder
-import com.yareach.socketjamcommon.security.domain.JwtTokenEncoder
+import com.yareach.socketjamcommon.user.model.UserIdentify
 import com.yareach.socketjamcommon.security.domain.TokenDecoder
 import com.yareach.socketjamcommon.security.domain.TokenEncoder
 import io.jsonwebtoken.Jwts
@@ -27,7 +25,7 @@ class JwtWithSecretKeyTest {
     private val jwtEncoder = TokenEncoder(secretKey)
     private val jwtDecoder = TokenDecoder(secretKey)
 
-    val testUser = UserAuthDto(UUID.randomUUID())
+    val testUser = UserIdentify(UUID.randomUUID())
 
     @Test
     @DisplayName("Token 생성 테스트")
@@ -38,7 +36,7 @@ class JwtWithSecretKeyTest {
 
         assertEquals(testUser.userId.toString(), jwtDecoder.getUserId(jwt))
 
-        val userVo = jwtDecoder.getUserDto(jwt)
+        val userVo = jwtDecoder.getUserIdentify(jwt)
 
         assertEquals(testUser.userId, userVo.userId)
     }
@@ -53,7 +51,7 @@ class JwtWithSecretKeyTest {
 
         assertEquals(testUser.userId.toString(), jwtDecoder.getUserId(jwt))
 
-        val userVo = jwtDecoder.getUserDto(jwt)
+        val userVo = jwtDecoder.getUserIdentify(jwt)
 
         assertEquals(testUser.userId, userVo.userId)
     }

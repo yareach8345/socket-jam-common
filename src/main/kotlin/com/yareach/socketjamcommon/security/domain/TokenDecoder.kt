@@ -1,6 +1,6 @@
 package com.yareach.socketjamcommon.security.domain
 
-import com.yareach.socketjamcommon.user.dto.UserAuthDto
+import com.yareach.socketjamcommon.user.model.UserIdentify
 import io.jsonwebtoken.Claims
 
 interface TokenDecoder {
@@ -10,5 +10,5 @@ interface TokenDecoder {
 
     fun isValidToken(token: String): Boolean
 
-    fun getUserDto(token: String): UserAuthDto
+    fun getUserIdentify(token: String): UserIdentify
 }
