@@ -1,6 +1,5 @@
 package com.yareach.socketjamcommon.domain.user
 
-import com.yareach.socketjamcommon.user.dto.RoomMemberDto
 import com.yareach.socketjamcommon.room.dto.RoomDto
 import com.yareach.socketjamcommon.user.domain.HueAllocator
 import org.junit.jupiter.api.DisplayName
